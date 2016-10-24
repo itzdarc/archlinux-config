@@ -1,0 +1,208 @@
+-- vim: ts=4 sw=4 noet ai cindent syntax=lua
+--[[
+Conky, a system monitor, based on torsmo
+
+Any original torsmo code is licensed under the BSD license
+
+All code written since the fork of torsmo is licensed under the GPL
+
+Please see COPYING for details
+
+Copyright (c) 2004, Hannu Saransaari and Lauri Hakkarainen
+Copyright (c) 2005-2012 Brenden Matthews, Philip Kovacs, et. al. (see AUTHORS)
+All rights reserved.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+]]
+
+conky.config = {
+    alignment = 'top_right',
+    gap_x = 10,
+    gap_y = 10,
+    background = false,
+    border_width = 1,
+    cpu_avg_samples = 3,
+	default_color = 'white',
+    default_outline_color = 'white',
+    default_shade_color = 'white',
+    draw_borders = false,
+    draw_graph_borders = false,
+    draw_outline = false,
+    draw_shades = false,
+    stippled_borders = 8,
+    use_xft = true,
+    font = 'Droid Sans Mono:size=10',
+	minimum_width = 5,
+    minimum_height = 5,
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    out_to_stderr = false,
+    extra_newline = false,
+
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_type = 'desktop',
+    own_window_argb_visual = true,
+    own_window_argb_value = 255,
+    own_window_transparent = true,
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    
+    update_interval = 1.0,
+    uppercase = false,
+    use_spacer = 'none',
+
+    show_graph_scale = false,
+    show_graph_range = false,
+
+    use_xft = true,
+    xftalpha = 0.0,
+
+
+    default_color = '8f8f8f',
+    default_outline_color = 'ffffff',
+    default_shade_color = 'c0c0c0',
+    color0 = 'ff0000',
+    color1 = '0000ff',
+    color2 = 'ffff00',
+    color3 = '00ff00',
+    color4 = 'ffafaf',
+    color5 = 'ffc800',
+    color6 = 'ff00ff',
+    color7 = '00ffff',
+    color8 = '808080',
+    color9 = '404040'
+}
+
+conky.text = [[
+
+${font :size=15}${color red}${alignc}${execi 6000 hostname}${font}${color }
+${font :size=8}${alignc}${color lightgrey}$kernel ${font :size=8:uppercase}${sysname} ${font}${color }
+${hr 1}
+${color slate grey}UpTime: ${alignr}${color lightgrey}$uptime${color }
+#${if_smapi_bat_installed BAT0}${color slate grey}Battery: ${alignr}${color lightgrey}${battery_percent BAT0} ${battery_bar 10,70 BAT0} ${battery_time BAT0}${endif}
+
+${font StyleBats:size=17}k${font Terminus:size=12} CPU ${font}${hr 2}
+${color slate grey}CPU:${color } ${cpu cpu0}% ${alignr}${color }$loadavg
+${cpugraph cpu1 10,115 000000 ffffff} ${cpu cpu1}%  ${alignr}${cpu cpu2}% ${cpugraph cpu2 10,115 000000 ffffff}
+${cpugraph cpu3 10,115 000000 ffffff} ${cpu cpu3}%  ${alignr}${cpu cpu4}% ${cpugraph cpu4 10,115 000000 ffffff}
+${cpugraph cpu5 10,115 000000 ffffff} ${cpu cpu5}%  ${alignr}${cpu cpu6}% ${cpugraph cpu6 10,115 000000 ffffff}
+${cpugraph cpu7 10,115 000000 ffffff} ${cpu cpu7}%  ${alignr}${cpu cpu8}% ${cpugraph cpu8 10,115 000000 ffffff}
+
+${color slate grey}Processes:${color }$color $processes  ${alignr}${color slate grey}Running:   ${color }$running_processes
+
+${color slate grey}Top CPU:
+${color #ddaa00} ${top name 1}${alignr}${top_mem cpu 1}
+${color lightgrey} ${top name 2}${alignr}${top cpu 2}
+${color lightgrey} ${top name 3}${alignr}${top cpu 3}
+${color lightgrey} ${top name 4}${alignr}${top cpu 4}
+
+${font StyleBats:size=17}M${font Terminus:size=12} MEMORY ${font}${hr 2}
+${color slate grey}RAM: ${alignr}${memperc}% ${membar 5,100}
+${color slate grey}SWAP: ${alignr}${swapperc}% ${swapbar 5,100}
+
+${color slate grey}Top Memory:
+${color #ddaa00} ${top_mem name 1}${alignr}${top_mem mem 1}
+${color lightgrey} ${top_mem name 2}${alignr}${top_mem mem 2}
+${color lightgrey} ${top_mem name 3}${alignr}${top_mem mem 3}
+${color lightgrey} ${top_mem name 4}${alignr}${top_mem mem 4}${color lightgrey}
+
+${font StyleBats:size=17}J${font Terminus:size=12} STORAGE ${font}${hr 2}
+${color slate grey}ROOT: ${alignr}${fs_used_perc /}% ${fs_bar 5,100 /}
+${color slate grey}HOME: ${alignr}${fs_used_perc /home}% ${fs_bar 5,100 /home}
+#${color slate grey}DESTRUCTION: ${alignr}${fs_bar 5,100 /mnt/Destruction}
+#${color slate grey}ENTROPY: ${alignr}${fs_bar 5,100 /mnt/Entropy}
+#${color slate grey}GLUTTONY: ${alignr}${fs_bar 5,100 /mnt/Gluttony}
+
+${color lightgrey}${font StyleBats:size=17}5${font Terminus:size=12} NETWORK ${font}${hr 2}
+${color slate grey}Public IPv4 Address: ${alignr}${color }${texeci 450 dig +short myip.opendns.com @resolver1.opendns.com}
+${if_existing /proc/net/route eno1}${color slate grey}${color slate grey}eno1 IP Addresses: ${alignr}${color }${addr eno1}
+${alignc}${color }${texeci 450 ip addr show dev eno1 | sed -e's/^.*inet6 \([^ ]*\)\/.*$/\1/;t;d' | head -1}
+
+${color}Up: ${color }${upspeed eno1} k/s
+${alignc}${upspeedgraph eno1 10,170 000000 ffffff}
+${color}Down: ${color }${downspeed eno1}k/s${color}
+${alignc}${downspeedgraph eno1 10,170 000000 ffffff}${endif}
+${if_existing /proc/net/route enp3s0}${color slate grey}${color slate grey}enp3s0 IP Addresses: ${alignr}${color }${addr enp3s0}
+${alignc}${color }${texeci 450 ip addr show dev enp3s0 | sed -e's/^.*inet6 \([^ ]*\)\/.*$/\1/;t;d' | head -1}
+
+${color}Up: ${color }${upspeed enp3s0} k/s
+${alignc}${upspeedgraph enp3s0 10,170 000000 ffffff}
+${color}Down: ${color }${downspeed enp3s0}k/s${color}
+${alignc}${downspeedgraph enp3s0 10,170 000000 ffffff}${endif}
+
+${font StyleBats:size=17}v${font Terminus:size=12} UPDATES ${font}${hr 2}
+${execpi 60 /home/darc/.scripts/archupdate-rss-color.py}${color}
+
+${if_running mpd}
+${font StyleBats:size=17}J${font Terminus:size=12} MUSIC ${font}${hr 2}
+${color slate grey}MPD Status: ${color}${alignr}${mpd_status}
+${if_mpd_playing}${font Terminus:size=11}
+${alignc}${mpd_artist}${font}
+${alignc}${mpd_title}
+
+${mpd_elapsed} ${alignc}${mpd_bar 10,140} ${alignr}${mpd_length}
+
+$endif
+$endif
+
+
+
+${color grey}Kernel: ${color e0e0e0}$kernel${color}  
+Uptime: ${color e0e0e0}${uptime_short}${color}  |  
+Cpu: ${color e0e0e0}${cpu}%${color}  
+Ram: ${color e0e0e0}${memperc}%${color}  
+Swap: ${color e0e0e0}${swapperc}%${color}  |  
+Root: ${color e0e0e0}${fs_free_perc /}%${color}   
+Home: ${color e0e0e0}${fs_free_perc /home}%${color}   |  
+${if_existing /proc/net/route wlan0}   
+Up: ${color e0e0e0}${upspeedf wlan0} kb/s - ${totalup wlan0}${color}  
+Down: ${color e0e0e0}${downspeedf wlan0} kb/s - ${totaldown wlan0}${color} 
+${else}
+${if_existing /proc/net/route ppp0}
+Up: ${color e0e0e0}${upspeedf ppp0} kb/s - ${totalup ppp0}${color}  
+Down: ${color e0e0e0}${downspeedf ppp0} kb/s - ${totaldown ppp0}${color}
+${else}
+${if_existing /proc/net/route eth0}
+Up: ${color e0e0e0}${upspeedf eth0} kb/s - ${totalup eth0}${color}  
+Down: ${color e0e0e0}${downspeedf eth0} kb/s - ${totaldown eth0}${color}
+${else}
+Nessuna Connessione${color}
+${endif}
+${endif}
+${endif}
+
+${alignc}
+
+
+${alignc}${color grey}$nodename - $kernel
+$hr
+${color grey}Uptime:$color $uptime
+${color grey}Frequency (in MHz):$color $freq
+${color grey}Frequency (in GHz):$color $freq_g
+${color grey}RAM Usage:$color $mem/$memmax - $memperc% ${membar 4}
+${color grey}Swap Usage:$color $swap/$swapmax - $swapperc% ${swapbar 4}
+${color grey}CPU Usage:$color $cpu% ${cpubar 4}
+${color grey}Processes:$color $processes  ${color grey}Running:$color $running_processes
+$hr
+${color grey}File systems:
+ / $color${fs_used /}/${fs_size /} ${fs_bar 6 /}
+${color grey}Networking:
+Up:$color ${upspeed eth0} ${color grey} - Down:$color ${downspeed eth0}
+$hr
+${color grey}Name              PID   CPU%   MEM%
+${color lightgrey} ${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
+${color lightgrey} ${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
+${color lightgrey} ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
+${color lightgrey} ${top name 4} ${top pid 4} ${top cpu 4} ${top mem 4}
+]]
