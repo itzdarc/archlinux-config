@@ -72,6 +72,7 @@ conky.config = {
     default_color = '8f8f8f',
     default_outline_color = 'ffffff',
     default_shade_color = 'c0c0c0',
+
     color0 = 'ff0000',
     color1 = '0000ff',
     color2 = 'ffff00',
@@ -81,7 +82,7 @@ conky.config = {
     color6 = 'ff00ff',
     color7 = '00ffff',
     color8 = '808080',
-    color9 = '404040'
+    color9 = '181818'
 }
 
 conky.text = [[
