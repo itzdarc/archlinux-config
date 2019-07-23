@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#terminator -e "sudo pacman -Syu"
+#i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'
+i3-nagbar -t warning -m 'You pressed the sysupdate button. Are you sure you want to upgrade Arch?' -B 'Update!' 'terminator -e "sudo pacman -Syu"'
